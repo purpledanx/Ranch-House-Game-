@@ -1,0 +1,1753 @@
+{
+  "name": "Default",
+  "className": "DataModel",
+  "children": [
+    {
+      "name": "StarterPlayer",
+      "className": "StarterPlayer",
+      "pluginManaged": true,
+      "children": [
+        {
+          "name": "StarterPlayerScripts",
+          "className": "StarterPlayerScripts",
+          "pluginManaged": true,
+          "children": [
+            {
+              "name": "Outside Sound",
+              "className": "LocalScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/StarterPlayerScripts/Outside Sound.local.luau"
+              ]
+            },
+            {
+              "name": "LocalPlayerManager",
+              "className": "LocalScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/StarterPlayerScripts/LocalPlayerManager.local.luau"
+              ]
+            },
+            {
+              "name": "GhostMover",
+              "className": "LocalScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/StarterPlayerScripts/GhostMover.local.luau"
+              ]
+            },
+            {
+              "name": "Realistic Sound System",
+              "className": "LocalScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/StarterPlayerScripts/Realistic Sound System.local.luau"
+              ]
+            },
+            {
+              "name": "Reverb System",
+              "className": "LocalScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/StarterPlayerScripts/Reverb System.local.luau"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "StarterCharacterScripts",
+          "className": "StarterCharacterScripts",
+          "pluginManaged": true,
+          "children": [
+            {
+              "name": "Animate",
+              "className": "LocalScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/StarterCharacterScripts/Animate.local.luau"
+              ]
+            },
+            {
+              "name": "WalkingSFX",
+              "className": "LocalScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/StarterCharacterScripts/WalkingSFX.local.luau"
+              ]
+            },
+            {
+              "name": "Smooth Camera",
+              "className": "LocalScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/StarterCharacterScripts/Smooth Camera.local.luau"
+              ]
+            },
+            {
+              "name": "Disabled",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "Cameras",
+                  "className": "LocalScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/StarterCharacterScripts/Disabled/Cameras.local.luau"
+                  ]
+                },
+                {
+                  "name": "HeadScript",
+                  "className": "LocalScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/StarterCharacterScripts/Disabled/HeadScript.local.luau"
+                  ]
+                },
+                {
+                  "name": "LocalScript",
+                  "className": "LocalScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/StarterCharacterScripts/Disabled/LocalScript.local.luau"
+                  ]
+                },
+                {
+                  "name": "Realistic Head Bobble",
+                  "className": "LocalScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/StarterCharacterScripts/Disabled/Realistic Head Bobble.local.luau"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ReplicatedStorage",
+      "className": "ReplicatedStorage",
+      "pluginManaged": true,
+      "children": [
+        {
+          "name": "Modules",
+          "className": "Folder",
+          "pluginManaged": true,
+          "children": [
+            {
+              "name": "Statistics",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "statistics",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Statistics/statistics.luau"
+                  ]
+                },
+                {
+                  "name": "statistics.spec",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Statistics/statistics.spec.luau"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Sounds",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "FootstepModule",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Sounds/FootstepModule/init.luau"
+                  ]
+                },
+                {
+                  "name": "DynamicAudioV2",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Sounds/DynamicAudioV2/init.luau"
+                  ],
+                  "children": [
+                    {
+                      "name": "GoodSignal",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Sounds/DynamicAudioV2/GoodSignal.luau"
+                      ]
+                    },
+                    {
+                      "name": "Calculate Raycast Bounce",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Sounds/DynamicAudioV2/Calculate Raycast Bounce/init.luau"
+                      ],
+                      "children": [
+                        {
+                          "name": "CastVisuals",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Sounds/DynamicAudioV2/Calculate Raycast Bounce/CastVisuals.luau"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Raycast",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Sounds/DynamicAudioV2/Raycast.luau"
+                      ]
+                    },
+                    {
+                      "name": "ParallelScheduler",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Sounds/DynamicAudioV2/ParallelScheduler/init.luau"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Visuals",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "CastVisuals",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Visuals/CastVisuals.luau"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Managers",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "LocalGhostManager",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Managers/LocalGhostManager.luau"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Util",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "Network",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Network/init.luau"
+                  ],
+                  "children": [
+                    {
+                      "name": "Callback",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Network/Callback.luau"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Janitor",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Janitor/init.luau"
+                  ],
+                  "children": [
+                    {
+                      "name": "Promise",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Janitor/Promise.luau"
+                      ]
+                    },
+                    {
+                      "name": "Packages",
+                      "className": "Folder",
+                      "pluginManaged": true,
+                      "children": [
+                        {
+                          "name": "Promise",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Janitor/Packages/Promise.luau"
+                          ]
+                        },
+                        {
+                          "name": "_Index",
+                          "className": "Folder",
+                          "pluginManaged": true,
+                          "children": [
+                            {
+                              "name": "evaera_promise@4.0.0",
+                              "className": "Folder",
+                              "pluginManaged": true,
+                              "children": [
+                                {
+                                  "name": "promise",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Janitor/Packages/_Index/evaera_promise@4.0.0/promise.luau"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "ParallelScheduler",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/ParallelScheduler/init.luau"
+                  ]
+                },
+                {
+                  "name": "Parallelizer",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/init.luau"
+                  ],
+                  "children": [
+                    {
+                      "name": "Index",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/init.luau"
+                      ],
+                      "children": [
+                        {
+                          "name": "types",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/types.luau"
+                          ]
+                        },
+                        {
+                          "name": "Utils",
+                          "className": "Folder",
+                          "pluginManaged": true,
+                          "children": [
+                            {
+                              "name": "Deserializer",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/Utils/Deserializer.luau"
+                              ]
+                            },
+                            {
+                              "name": "Serializer",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/Utils/Serializer.luau"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Class",
+                          "className": "Folder",
+                          "pluginManaged": true,
+                          "children": [
+                            {
+                              "name": "TaskCoordinator",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/Class/TaskCoordinator.luau"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "DataTypes",
+                          "className": "Folder",
+                          "pluginManaged": true,
+                          "children": [
+                            {
+                              "name": "i32",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/i32.luau"
+                              ]
+                            },
+                            {
+                              "name": "str",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/str.luau"
+                              ]
+                            },
+                            {
+                              "name": "vector3i16",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/vector3i16.luau"
+                              ]
+                            },
+                            {
+                              "name": "cframe",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/cframe.luau"
+                              ]
+                            },
+                            {
+                              "name": "f32",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/f32.luau"
+                              ]
+                            },
+                            {
+                              "name": "u32",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/u32.luau"
+                              ]
+                            },
+                            {
+                              "name": "f64",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/f64.luau"
+                              ]
+                            },
+                            {
+                              "name": "i8",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/i8.luau"
+                              ]
+                            },
+                            {
+                              "name": "vector3",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/vector3.luau"
+                              ]
+                            },
+                            {
+                              "name": "i16",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/i16.luau"
+                              ]
+                            },
+                            {
+                              "name": "vector2",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/vector2.luau"
+                              ]
+                            },
+                            {
+                              "name": "u8",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/u8.luau"
+                              ]
+                            },
+                            {
+                              "name": "bool",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/bool.luau"
+                              ]
+                            },
+                            {
+                              "name": "u16",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/u16.luau"
+                              ]
+                            },
+                            {
+                              "name": "vector2i16",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/vector2i16.luau"
+                              ]
+                            },
+                            {
+                              "name": "color3",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/color3.luau"
+                              ]
+                            },
+                            {
+                              "name": "color3b16",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/color3b16.luau"
+                              ]
+                            },
+                            {
+                              "name": "buffer",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Util/Parallelizer/Index/DataTypes/buffer.luau"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ServerScriptService",
+      "className": "ServerScriptService",
+      "pluginManaged": true,
+      "children": [
+        {
+          "name": "NockSoundModule",
+          "className": "ModuleScript",
+          "pluginManaged": true,
+          "filePaths": [
+            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/NockSoundModule.luau"
+          ]
+        },
+        {
+          "name": "MainModule",
+          "className": "ModuleScript",
+          "pluginManaged": true,
+          "filePaths": [
+            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/init.luau"
+          ],
+          "children": [
+            {
+              "name": "core",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "rateLimit",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/core/rateLimit.luau"
+                  ]
+                },
+                {
+                  "name": "permission",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/core/permission.luau"
+                  ]
+                },
+                {
+                  "name": "api",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/core/api.luau"
+                  ]
+                },
+                {
+                  "name": "filter",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/core/filter.luau"
+                  ]
+                },
+                {
+                  "name": "constructors",
+                  "className": "Folder",
+                  "pluginManaged": true,
+                  "children": [
+                    {
+                      "name": "speaker",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/core/constructors/speaker.luau"
+                      ]
+                    },
+                    {
+                      "name": "channel",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/core/constructors/channel.luau"
+                      ]
+                    },
+                    {
+                      "name": "message",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/core/constructors/message.luau"
+                      ]
+                    },
+                    {
+                      "name": "poll",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/core/constructors/poll.luau"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "services",
+                  "className": "Folder",
+                  "pluginManaged": true,
+                  "children": [
+                    {
+                      "name": "profile",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/core/services/profile.luau"
+                      ]
+                    },
+                    {
+                      "name": "marketplace",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/core/services/marketplace.luau"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "utility",
+                  "className": "Folder",
+                  "pluginManaged": true,
+                  "children": [
+                    {
+                      "name": "main",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/core/utility/main.luau"
+                      ]
+                    },
+                    {
+                      "name": "dependencies",
+                      "className": "Folder",
+                      "pluginManaged": true,
+                      "children": [
+                        {
+                          "name": "chatInstaller",
+                          "className": "LocalScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/core/utility/dependencies/chatInstaller.local.luau"
+                          ]
+                        },
+                        {
+                          "name": "extract",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/core/utility/dependencies/extract.luau"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "shared",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "network",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/shared/network.luau"
+                  ]
+                },
+                {
+                  "name": "signal",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/shared/signal.luau"
+                  ]
+                },
+                {
+                  "name": "wrap",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/shared/wrap.luau"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "client",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "load",
+                  "className": "LocalScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/load.local.luau"
+                  ]
+                },
+                {
+                  "name": "modules",
+                  "className": "Folder",
+                  "pluginManaged": true,
+                  "children": [
+                    {
+                      "name": "privacy",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/privacy.luau"
+                      ]
+                    },
+                    {
+                      "name": "core",
+                      "className": "Folder",
+                      "pluginManaged": true,
+                      "children": [
+                        {
+                          "name": "connections",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/connections.luau"
+                          ]
+                        },
+                        {
+                          "name": "utility",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/utility.luau"
+                          ]
+                        },
+                        {
+                          "name": "localization",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/localization.luau"
+                          ]
+                        },
+                        {
+                          "name": "settingsMenu",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/settingsMenu.luau"
+                          ]
+                        },
+                        {
+                          "name": "chat",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/chat.luau"
+                          ]
+                        },
+                        {
+                          "name": "api",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/api.luau"
+                          ]
+                        },
+                        {
+                          "name": "history",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/history.luau"
+                          ]
+                        },
+                        {
+                          "name": "messages",
+                          "className": "Folder",
+                          "pluginManaged": true,
+                          "children": [
+                            {
+                              "name": "system",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/messages/system.luau"
+                              ]
+                            },
+                            {
+                              "name": "default",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/messages/default.luau"
+                              ]
+                            },
+                            {
+                              "name": "reply",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/messages/reply.luau"
+                              ]
+                            },
+                            {
+                              "name": "poll",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/messages/poll.luau"
+                              ]
+                            },
+                            {
+                              "name": "templates",
+                              "className": "Folder",
+                              "pluginManaged": true,
+                              "children": [
+                                {
+                                  "name": "regular",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/messages/templates/regular.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "reply",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/messages/templates/reply.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "pollClasses",
+                                  "className": "Folder",
+                                  "pluginManaged": true,
+                                  "children": [
+                                    {
+                                      "name": "multipleChoice",
+                                      "className": "ModuleScript",
+                                      "pluginManaged": true,
+                                      "filePaths": [
+                                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/messages/templates/pollClasses/multipleChoice.luau"
+                                      ]
+                                    },
+                                    {
+                                      "name": "range",
+                                      "className": "ModuleScript",
+                                      "pluginManaged": true,
+                                      "filePaths": [
+                                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/messages/templates/pollClasses/range.luau"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "name": "util",
+                              "className": "Folder",
+                              "pluginManaged": true,
+                              "children": [
+                                {
+                                  "name": "functions",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/messages/util/functions.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "prompt",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/messages/util/prompt.luau"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "formatting",
+                          "className": "Folder",
+                          "pluginManaged": true,
+                          "children": [
+                            {
+                              "name": "richText",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/formatting/richText.luau"
+                              ]
+                            },
+                            {
+                              "name": "markdown",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/formatting/markdown.luau"
+                              ]
+                            },
+                            {
+                              "name": "color",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/formatting/color.luau"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "commands",
+                          "className": "Folder",
+                          "pluginManaged": true,
+                          "children": [
+                            {
+                              "name": "processor",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/commands/processor.luau"
+                              ]
+                            },
+                            {
+                              "name": "list",
+                              "className": "Folder",
+                              "pluginManaged": true,
+                              "children": [
+                                {
+                                  "name": "console",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/commands/list/console.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "dance",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/commands/list/dance.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "help",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/commands/list/help.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "mute",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/commands/list/mute.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "unmute",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/commands/list/unmute.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "settings",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/commands/list/settings.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "quickChat",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/commands/list/quickChat.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "createPoll",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/commands/list/createPoll.luau"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "constructors",
+                          "className": "Folder",
+                          "pluginManaged": true,
+                          "children": [
+                            {
+                              "name": "slider",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/constructors/slider.luau"
+                              ]
+                            },
+                            {
+                              "name": "toggle",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/constructors/toggle.luau"
+                              ]
+                            },
+                            {
+                              "name": "dropdown",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/constructors/dropdown.luau"
+                              ]
+                            },
+                            {
+                              "name": "quickChatDropdown",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/constructors/quickChatDropdown.luau"
+                              ]
+                            },
+                            {
+                              "name": "buildViewport",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/constructors/buildViewport.luau"
+                              ]
+                            },
+                            {
+                              "name": "util",
+                              "className": "Folder",
+                              "pluginManaged": true,
+                              "children": [
+                                {
+                                  "name": "zlib",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/constructors/util/zlib.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "main",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/constructors/util/main.luau"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "topbar",
+                          "className": "Folder",
+                          "pluginManaged": true,
+                          "children": [
+                            {
+                              "name": "icons",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/topbar/icons/init.luau"
+                              ],
+                              "children": [
+                                {
+                                  "name": "topbarPlus",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/topbar/icons/topbarPlus/init.luau"
+                                  ],
+                                  "children": [
+                                    {
+                                      "name": "VERSION",
+                                      "className": "ModuleScript",
+                                      "pluginManaged": true,
+                                      "filePaths": [
+                                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/topbar/icons/topbarPlus/VERSION.luau"
+                                      ]
+                                    },
+                                    {
+                                      "name": "TopbarPlusReference",
+                                      "className": "ModuleScript",
+                                      "pluginManaged": true,
+                                      "filePaths": [
+                                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/topbar/icons/topbarPlus/TopbarPlusReference.luau"
+                                      ]
+                                    },
+                                    {
+                                      "name": "TopbarPlusGui",
+                                      "className": "ModuleScript",
+                                      "pluginManaged": true,
+                                      "filePaths": [
+                                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/topbar/icons/topbarPlus/TopbarPlusGui.luau"
+                                      ]
+                                    },
+                                    {
+                                      "name": "Themes",
+                                      "className": "ModuleScript",
+                                      "pluginManaged": true,
+                                      "filePaths": [
+                                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/topbar/icons/topbarPlus/Themes/init.luau"
+                                      ],
+                                      "children": [
+                                        {
+                                          "name": "Old_RobloxTopbar",
+                                          "className": "ModuleScript",
+                                          "pluginManaged": true,
+                                          "filePaths": [
+                                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/topbar/icons/topbarPlus/Themes/Old_RobloxTopbar.luau"
+                                          ]
+                                        },
+                                        {
+                                          "name": "BlueGradient",
+                                          "className": "ModuleScript",
+                                          "pluginManaged": true,
+                                          "filePaths": [
+                                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/topbar/icons/topbarPlus/Themes/BlueGradient.luau"
+                                          ]
+                                        },
+                                        {
+                                          "name": "New_RobloxTopbar",
+                                          "className": "ModuleScript",
+                                          "pluginManaged": true,
+                                          "filePaths": [
+                                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/topbar/icons/topbarPlus/Themes/New_RobloxTopbar.luau"
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "name": "Signal",
+                                      "className": "ModuleScript",
+                                      "pluginManaged": true,
+                                      "filePaths": [
+                                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/topbar/icons/topbarPlus/Signal.luau"
+                                      ]
+                                    },
+                                    {
+                                      "name": "Maid",
+                                      "className": "ModuleScript",
+                                      "pluginManaged": true,
+                                      "filePaths": [
+                                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/topbar/icons/topbarPlus/Maid.luau"
+                                      ]
+                                    },
+                                    {
+                                      "name": "IconController",
+                                      "className": "ModuleScript",
+                                      "pluginManaged": true,
+                                      "filePaths": [
+                                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/topbar/icons/topbarPlus/IconController.luau"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "elements",
+                          "className": "Folder",
+                          "pluginManaged": true,
+                          "children": [
+                            {
+                              "name": "channelBar",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/elements/channelBar.luau"
+                              ]
+                            },
+                            {
+                              "name": "chatWindow",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/elements/chatWindow.luau"
+                              ]
+                            },
+                            {
+                              "name": "chatbar",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/elements/chatbar.luau"
+                              ]
+                            },
+                            {
+                              "name": "chatGui",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/elements/chatGui.luau"
+                              ]
+                            },
+                            {
+                              "name": "pollCreator",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/elements/pollCreator.luau"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "autofill",
+                          "className": "Folder",
+                          "pluginManaged": true,
+                          "children": [
+                            {
+                              "name": "autofill",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/autofill/autofill.luau"
+                              ]
+                            },
+                            {
+                              "name": "manager",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/autofill/manager.luau"
+                              ]
+                            },
+                            {
+                              "name": "autofills",
+                              "className": "Folder",
+                              "pluginManaged": true,
+                              "children": [
+                                {
+                                  "name": "mention",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/autofill/autofills/mention.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "userAutofill",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/autofill/autofills/userAutofill.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "team",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/autofill/autofills/team.luau"
+                                  ]
+                                },
+                                {
+                                  "name": "emoji",
+                                  "className": "ModuleScript",
+                                  "pluginManaged": true,
+                                  "filePaths": [
+                                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/autofill/autofills/emoji.luau"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "lists",
+                          "className": "Folder",
+                          "pluginManaged": true,
+                          "children": [
+                            {
+                              "name": "emojiList",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/lists/emojiList.luau"
+                              ]
+                            },
+                            {
+                              "name": "localizationTable",
+                              "className": "ModuleScript",
+                              "pluginManaged": true,
+                              "filePaths": [
+                                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/core/lists/localizationTable.luau"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "bubbleChat",
+                      "className": "Folder",
+                      "pluginManaged": true,
+                      "children": [
+                        {
+                          "name": "main",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/bubbleChat/main.luau"
+                          ]
+                        },
+                        {
+                          "name": "billboard",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/bubbleChat/billboard.luau"
+                          ]
+                        },
+                        {
+                          "name": "ui",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/bubbleChat/ui.luau"
+                          ]
+                        },
+                        {
+                          "name": "stack",
+                          "className": "ModuleScript",
+                          "pluginManaged": true,
+                          "filePaths": [
+                            "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/MainModule/client/modules/bubbleChat/stack.luau"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Scripts",
+          "className": "Folder",
+          "pluginManaged": true,
+          "children": [
+            {
+              "name": "LocalValuesChanger",
+              "className": "Script",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Scripts/LocalValuesChanger.legacy.luau"
+              ]
+            },
+            {
+              "name": "ServerManager",
+              "className": "Script",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Scripts/ServerManager.legacy.luau"
+              ]
+            },
+            {
+              "name": "MainController",
+              "className": "Script",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Scripts/MainController/init.legacy.luau"
+              ],
+              "children": [
+                {
+                  "name": "NockLoopHandler",
+                  "className": "Script",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Scripts/MainController/NockLoopHandler.legacy.luau"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "PlayerManager",
+              "className": "Script",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Scripts/PlayerManager.legacy.luau"
+              ]
+            },
+            {
+              "name": "SoftShutDown",
+              "className": "Script",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Scripts/SoftShutDown.legacy.luau"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Modules",
+          "className": "Folder",
+          "pluginManaged": true,
+          "children": [
+            {
+              "name": "DoorManager",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Modules/DoorManager.luau"
+              ]
+            },
+            {
+              "name": "GameServer",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Modules/GameServer.luau"
+              ]
+            },
+            {
+              "name": "GhostDataModule",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Modules/GhostDataModule.luau"
+              ]
+            },
+            {
+              "name": "GhostManager",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Modules/GhostManager.luau"
+              ]
+            },
+            {
+              "name": "SimplePath",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Modules/SimplePath.luau"
+              ]
+            },
+            {
+              "name": "DataTableAccess",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Modules/DataTableAccess.luau"
+              ]
+            },
+            {
+              "name": "ChangeLog",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Modules/ChangeLog.luau"
+              ]
+            },
+            {
+              "name": "LightDetection",
+              "className": "ModuleScript",
+              "pluginManaged": true,
+              "filePaths": [
+                "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerScriptService/Modules/LightDetection.luau"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ServerStorage",
+      "className": "ServerStorage",
+      "pluginManaged": true,
+      "children": [
+        {
+          "name": "Assets",
+          "className": "Folder",
+          "pluginManaged": true,
+          "children": [
+            {
+              "name": "Unused",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "FlickerLightModule(Not used)",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/Assets/Unused/FlickerLightModule(Not used).luau"
+                  ]
+                },
+                {
+                  "name": "LightManager(Not used)",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/Assets/Unused/LightManager(Not used).luau"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PlayerDataExample",
+          "className": "Folder",
+          "pluginManaged": true,
+          "children": [
+            {
+              "name": "PlayerData",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "Client",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/Client.luau"
+                  ]
+                },
+                {
+                  "name": "Server",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/Server.luau"
+                  ]
+                },
+                {
+                  "name": "Signal",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/Signal.luau"
+                  ]
+                },
+                {
+                  "name": "noYield",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/noYield.luau"
+                  ]
+                },
+                {
+                  "name": "Modules",
+                  "className": "Folder",
+                  "pluginManaged": true,
+                  "children": [
+                    {
+                      "name": "mergeArraysUniqueOnly",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/Modules/mergeArraysUniqueOnly.luau"
+                      ]
+                    },
+                    {
+                      "name": "retryAsync",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/Modules/retryAsync.luau"
+                      ]
+                    },
+                    {
+                      "name": "SessionLockedDataStoreWrapper",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/Modules/SessionLockedDataStoreWrapper.luau"
+                      ]
+                    },
+                    {
+                      "name": "getMaxRequestTime",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/Modules/getMaxRequestTime.luau"
+                      ]
+                    },
+                    {
+                      "name": "DataStoreWrapper",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/Modules/DataStoreWrapper.luau"
+                      ]
+                    },
+                    {
+                      "name": "safePlayerAdded",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/Modules/safePlayerAdded.luau"
+                      ]
+                    },
+                    {
+                      "name": "setInterval",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/Modules/setInterval.luau"
+                      ]
+                    },
+                    {
+                      "name": "PlayerDataErrorType",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/Modules/PlayerDataErrorType.luau"
+                      ]
+                    },
+                    {
+                      "name": "TableUtils",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/Modules/TableUtils.luau"
+                      ]
+                    },
+                    {
+                      "name": "ThreadQueue",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/PlayerData/Modules/ThreadQueue.luau"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Example",
+              "className": "Folder",
+              "pluginManaged": true,
+              "children": [
+                {
+                  "name": "Client",
+                  "className": "Script",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/Example/Client.client.luau"
+                  ]
+                },
+                {
+                  "name": "Server",
+                  "className": "Script",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ServerStorage/PlayerDataExample/Example/Server.server.luau"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
