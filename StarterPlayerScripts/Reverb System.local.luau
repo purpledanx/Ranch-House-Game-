@@ -1,7 +1,13 @@
-local player = game.Players.LocalPlayer
-local ReplicatedStorage = game.ReplicatedStorage
-local ReverbModule = require(ReplicatedStorage.Modules.Sounds.DynamicAudioV2)
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
+
+local ReverbModule = require(ReplicatedStorage.Modules.Sounds.DynamicAudioV2)
+local player = Players.LocalPlayer
+local house = workspace:WaitForChild("House")
+local hitbox = house:WaitForChild("Hitbox")
+local roomRegions = house:WaitForChild("RoomRegions")
+
 local Sounds = {}
 local Filter = {}
 local ReverbObjs = {}
@@ -13,8 +19,6 @@ local IgnoreTransparent = true
 local Debug = false
 local LerpTime = 0.15
 local ThreeDNMuffle = true
-local RenderStepPrioriy = 1
-
 local UniqueID = 0
 
 local Character = player.Character
@@ -23,26 +27,26 @@ if Character then
 	table.insert(Filter, Character)
 end
 
-for i,v in ipairs(game.Workspace.House.Hitbox:GetChildren()) do
+for _, v in ipairs(hitbox:GetChildren()) do
 	if v:IsA("BasePart") then
 		table.insert(Filter,v)
 	end
 end
 
-for i,v in ipairs(game.Workspace.House.RoomRegions:GetChildren()) do
+for _, v in ipairs(roomRegions:GetChildren()) do
 	if v:IsA("BasePart") then
 		table.insert(Filter,v)
 	end
 end
 
-for i,v in ipairs(game.Workspace:GetChildren()) do
+for _, v in ipairs(workspace:GetChildren()) do
 	if v.Name == "PathThrough" then
 		table.insert(Filter,v)
 	end
 end
 
-for i,v in ipairs(game.Workspace:GetDescendants()) do
-	if v:IsA("Sound") and v.Parent:IsA("BasePart") then
+for _, v in ipairs(workspace:GetDescendants()) do
+	if v:IsA("Sound") and v.Parent and v.Parent:IsA("BasePart") then
 		table.insert(Sounds,v)
 	end
 	if v:IsA("AudioEmitter") then
@@ -50,53 +54,37 @@ for i,v in ipairs(game.Workspace:GetDescendants()) do
 	end
 end
 
-local function RoundTo(Number: number, NumberOfDecimalPlaces: number)
-	local RoundTo = 10^(NumberOfDecimalPlaces or 0)
-	local Rounded = math.floor(Number * RoundTo + 0.5) / RoundTo
-	return Rounded
-end
+local function FindAudioPlayer(object: Instance): AudioPlayer?
+	if object:IsA("AudioPlayer") then
+		return object
+	end
 
-local function FindAudioPlayer(Object:AudioEmitter|Wire)
-	if not Object:IsA("Wire") then
-		local list = Object:GetConnectedWires("Input")
+	if object:IsA("Wire") then
+		local source = object.SourceInstance
+		return source and FindAudioPlayer(source) or nil
+	end
 
-		for i,v:AudioPlayer in ipairs(list) do
-			if v:IsA("AudioPlayer") then
-				return v
-			else
-				return FindAudioPlayer(v)
+	if object:IsA("AudioEmitter") then
+		for _, wire in ipairs(object:GetConnectedWires("Input")) do
+			local audioPlayer = FindAudioPlayer(wire)
+			if audioPlayer then
+				return audioPlayer
 			end
 		end
-	elseif Object:IsA("Wire") then
-		if Object.SourceInstance:IsA("AudioPlayer") then
-			return Object.SourceInstance
-		else
-			return FindAudioPlayer(Object.SourceInstance)
-		end
 	end
-	
-	return nil
-end
 
-local function GetPosition(Sound:Sound)
-	if Sound.Parent:IsA("Model") then
-		if Sound.Parent.PrimaryPart then
-			return Sound.Parent.PrimaryPart.Position
-		else
-			return Sound.Parent.WorldPivot.Position
-		end
-	end
-	if Sound.Parent:IsA("BasePart") then
-		return Sound.Parent.Position
-	end
 	return nil
 end
 
 local function Sound(v:Sound)
-	local BaseVolume = v.Volume
-	local RayParam = ReverbModule.newRayParams(v.Parent, MaxBounce, Rays, Distance, IgnoreTransparent, Debug)
+	local source = v.Parent
+	if not source or not source:IsA("BasePart") then
+		return
+	end
+
+	local RayParam = ReverbModule.newRayParams(source, MaxBounce, Rays, Distance, IgnoreTransparent, Debug)
 	local SoundParm = ReverbModule.newSoundParams(LerpTime,1,ThreeDNMuffle)
-	local ReverbObj: ReverbModule.ObjectMeta = ReverbModule.new(RayParam, SoundParm, Filter)
+	local ReverbObj = ReverbModule.new(RayParam, SoundParm, Filter)
 	ReverbObj:AddSound(v)
 	ReverbObjs[v] = ReverbObj
 	v:SetAttribute("IDB","B"..UniqueID)
@@ -118,9 +106,14 @@ local function Sound(v:Sound)
 end
 
 local function Emitter(v:AudioEmitter)
-	local RayParam = ReverbModule.newRayParams(v.Parent, MaxBounce, Rays, Distance, IgnoreTransparent, Debug)
+	local source = v.Parent
+	if not source or not source:IsA("BasePart") then
+		return
+	end
+
+	local RayParam = ReverbModule.newRayParams(source, MaxBounce, Rays, Distance, IgnoreTransparent, Debug)
 	local SoundParm = ReverbModule.newSoundParams(LerpTime,1,ThreeDNMuffle)
-	local ReverbObj: ReverbModule.ObjectMeta = ReverbModule.new(RayParam,SoundParm, Filter)
+	local ReverbObj = ReverbModule.new(RayParam,SoundParm, Filter)
 	local AudioPlayer = nil
 	local Updating = false
 	ReverbObj:AddSound(v)
@@ -162,9 +155,9 @@ local function Emitter(v:AudioEmitter)
 	end
 end
 
-for i,v:Sound in ipairs(Sounds) do
+for _, v in ipairs(Sounds) do
 	UniqueID+=1
-	if v.Parent:IsA("BasePart") then
+	if v.Parent and v.Parent:IsA("BasePart") then
 		if v:IsA("Sound") then
 			Sound(v)
 		elseif v:IsA("AudioEmitter") then
@@ -173,14 +166,14 @@ for i,v:Sound in ipairs(Sounds) do
 	end
 end
 
-game.Workspace.DescendantAdded:Connect(function(v)
+workspace.DescendantAdded:Connect(function(v)
 	UniqueID+=1
-	if v and v:IsA("Sound") and v.Parent:IsA("BasePart") then
+	if v:IsA("Sound") and v.Parent and v.Parent:IsA("BasePart") then
 		if not table.find(Sounds,v) then
 			table.insert(Sounds,v)
 		end
 		Sound(v)
-	elseif v and v:IsA("AudioEmitter") and v.Parent:IsA("BasePart") then
+	elseif v:IsA("AudioEmitter") and v.Parent and v.Parent:IsA("BasePart") then
 		if not table.find(Sounds,v) then
 			table.insert(Sounds,v)
 		end
@@ -188,15 +181,22 @@ game.Workspace.DescendantAdded:Connect(function(v)
 	end
 end)
 
-game.Workspace.DescendantRemoving:Connect(function(v)
-	if v.Parent and v and v.Parent:IsA("BasePart") and table.find(Sounds,v) then
+workspace.DescendantRemoving:Connect(function(v)
+	local soundIndex = table.find(Sounds, v)
+	if v.Parent and v.Parent:IsA("BasePart") and soundIndex then
 		if ReverbObjs[v] ~= nil then
 			ReverbObjs[v]:StopUpdate()
 			ReverbObjs[v]:RemoveSound(v, true)
 			ReverbObjs[v] = nil
-			Connections[v:GetAttribute("IDB")]:Disconnect()
-			Connections[v:GetAttribute("IDB")] = nil
+			local connectionId = v:GetAttribute("IDB")
+			if type(connectionId) == "string" then
+				local connection = Connections[connectionId]
+				if connection then
+					connection:Disconnect()
+					Connections[connectionId] = nil
+				end
+			end
 		end
-		table.remove(Sounds,table.find(Sounds,v))
+		table.remove(Sounds, soundIndex)
 	end
 end)

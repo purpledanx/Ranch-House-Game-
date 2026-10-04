@@ -141,7 +141,6 @@ end
 
 local function SetBubbleChatSettings()
 	ChatService:SetBubbleChatSettings({Transparency = 1, VerticalStudsOffset = 1.5, BackgroundColor3 = Color3.fromRGB(180, 210, 228)}) 
-	print("ok")
 end
 
 local function DoorCollision(door:MeshPart)
@@ -167,10 +166,45 @@ UserInputService.InputChanged:Connect(InputChanged)
 
 ToolPickupGUI.TextButton.MouseButton1Click:Connect(ToolPickupGuiClicked)
 
-for i,v:Part in ipairs(game.Workspace.House.RoomRegions:GetChildren()) do
-	v.Touched:Connect(function(part)
-		if part:IsDescendantOf(character) then
-			RoomTouched(v.Name)
-		end
-	end)
+local RoomRegions = game.Workspace.House.RoomRegions
+
+-- Cache each region's CFrame and half-size once (regions are static)
+local cachedRegions = {}
+for _, region: Part in ipairs(RoomRegions:GetChildren()) do
+	table.insert(cachedRegions, {
+		name = region.Name,
+		cframe = region.CFrame,
+		halfSize = region.Size / 2,
+	})
 end
+
+-- Cache torso reference, refresh on respawn
+local torso = nil
+local function refreshTorso()
+	local char = player.Character
+	if not char then return end
+	torso = char:FindFirstChild("UpperTorso") or char:FindFirstChild("Torso")
+end
+refreshTorso()
+player.CharacterAdded:Connect(function()
+	task.wait(0.5)
+	refreshTorso()
+end)
+
+task.spawn(function()
+	while task.wait(0.1) do
+		if torso then
+			local pos = torso.Position
+			for _, region in ipairs(cachedRegions) do
+				local localPos = region.cframe:PointToObjectSpace(pos)
+				local half = region.halfSize
+				if localPos.X > -half.X and localPos.X < half.X
+					and localPos.Y > -half.Y and localPos.Y < half.Y
+					and localPos.Z > -half.Z and localPos.Z < half.Z then
+					RoomTouched(region.name)
+					break
+				end
+			end
+		end
+	end
+end)

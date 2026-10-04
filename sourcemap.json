@@ -173,6 +173,24 @@
                   ]
                 },
                 {
+                  "name": "RealisticSoundOcclusion",
+                  "className": "ModuleScript",
+                  "pluginManaged": true,
+                  "filePaths": [
+                    "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Sounds/RealisticSoundOcclusion/init.luau"
+                  ],
+                  "children": [
+                    {
+                      "name": "InstancePaths",
+                      "className": "ModuleScript",
+                      "pluginManaged": true,
+                      "filePaths": [
+                        "c:/Users/danny/Downloads/Roblox_Games/Ranch House [Game]/ReplicatedStorage/Modules/Sounds/RealisticSoundOcclusion/InstancePaths.luau"
+                      ]
+                    }
+                  ]
+                },
+                {
                   "name": "DynamicAudioV2",
                   "className": "ModuleScript",
                   "pluginManaged": true,

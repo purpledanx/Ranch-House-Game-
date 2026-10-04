@@ -129,19 +129,13 @@ function module.CloseDoor(doorname:string)
 	local HandleHingeF = state.handleF
 	local prompt = state.prompt
 
+	local HandleReturnF = {CFrame = state.handleFOrigin}
 	local CloseDoor = {CFrame = state.hingeOrigin}
 
 	prompt.ActionText = "Open"
 	playSound(prompt.Parent, "rbxassetid://14216042454")
 
-	-- Close the door first (handles move with it since they're welded)
-	local doorTween = TS:Create(Hinge, TI, CloseDoor)
-	doorTween:Play()
-	doorTween.Completed:Wait()
-
-	-- Now return handles to their neutral position
 	HandleHingeF.Anchored = true
-	local HandleReturnF = {CFrame = state.handleFOrigin}
 	local handleTween = TS:Create(HandleHingeF, TIH, HandleReturnF)
 	handleTween:Play()
 	handleTween.Completed:Wait()
@@ -149,13 +143,17 @@ function module.CloseDoor(doorname:string)
 
 	if state.handleB then
 		local HandleHingeB = state.handleB
-		HandleHingeB.Anchored = true
 		local HandleReturnB = {CFrame = state.handleBOrigin}
+		HandleHingeB.Anchored = true
 		local handleTweenB = TS:Create(HandleHingeB, TIH, HandleReturnB)
 		handleTweenB:Play()
 		handleTweenB.Completed:Wait()
 		HandleHingeB.Anchored = false
 	end
+
+	local doorTween = TS:Create(Hinge, TI, CloseDoor)
+	doorTween:Play()
+	doorTween.Completed:Wait()
 
 	state.open = false
 	state.cd = false

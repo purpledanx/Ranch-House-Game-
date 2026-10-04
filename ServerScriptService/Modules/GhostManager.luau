@@ -169,30 +169,30 @@ function module.new(parms)
 	self.GhostModel.Parent = game.Workspace
 	self.GhostSetUp = true
 	self.pathObject = SimplePathModule.new(self.GhostModel,PathFindingParms)
+	self.ValidWalkingSpace = game.Workspace.House.Walk
+	self.testpart = Instance.new("Part")
+	self.testpart.Parent = game.Workspace
+	self.testpart.Anchored = true
+	self.testpart.Transparency = 1
+	self.testpart.Size = Vector3.new(1,1,1)
 	
 	return self
 end
 
-function GhostObj:StartGhost()
+function GhostObj:PathGhost()
 	local self: ObjectMeta = self
 	if self.GhostSetUp then
-		local ValidWalkingSpace = game.Workspace.House.Walk
-		local testpart:Part = Instance.new("Part")
-		testpart.Parent = game.Workspace
-		testpart.Anchored = true
-		testpart.Transparency = 1
-		testpart.Size = Vector3.new(1,1,1)
 		local list = {}
 		local character:Model = SimplePathModule.GetNearestCharacter(self.GhostModel.PrimaryPart.Position)
 
 		if character and self.GhostModel and (character.UpperTorso.Position-self.GhostModel.PrimaryPart.Position).Magnitude > 1 then
-			testpart.Position = character.UpperTorso.Position
-			ValidWalkingSpace.CanCollide = true
-			list = testpart:GetTouchingParts()
-			ValidWalkingSpace.CanCollide = false
-			testpart.Position = Vector3.new(10000,100000,100000)
+			self.testpart.Position = character.UpperTorso.Position
+			self.ValidWalkingSpace.CanCollide = true
+			list = self.testpart:GetTouchingParts()
+			self.ValidWalkingSpace.CanCollide = false
+			self.testpart.Position = Vector3.new(10000,100000,100000)
 
-			if table.find(list,ValidWalkingSpace) then
+			if table.find(list,self.ValidWalkingSpace) then
 				self.pathObject:Run(character.UpperTorso.Position)
 			end
 		end

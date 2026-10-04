@@ -3,9 +3,8 @@ local character = player.Character or player.CharacterAdded:Wait()
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local Info = TweenInfo.new(1,Enum.EasingStyle.Sine)
-wait(0.4)
+task.wait(0.4)
 local BaseVolume = game.Workspace.Sounds["Scary Forest Ambience"].Volume
-local lastroom = ""
 local locationUI = player.PlayerGui.HUD.Location
 
 RunService.RenderStepped:Connect(function()
@@ -23,5 +22,4 @@ RunService.RenderStepped:Connect(function()
 		tween:Play()
 		--game.Workspace.Sounds["Scary Forest Ambience"].Volume = 0
 	end
-	lastroom = locationUI.TextLabel.Text
 end)

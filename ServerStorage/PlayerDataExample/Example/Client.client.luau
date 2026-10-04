@@ -1,4 +1,16 @@
-local PlayerDataClient = require(script.Parent.Parent.PlayerData.Client)
+local exampleFolder = script.Parent
+assert(exampleFolder, "The client example must be parented to the Example folder")
+
+local playerDataExample = exampleFolder.Parent
+assert(playerDataExample, "The Example folder must be parented to PlayerDataExample")
+
+local playerDataFolder = playerDataExample:FindFirstChild("PlayerData")
+assert(playerDataFolder, "PlayerDataExample is missing its PlayerData folder")
+
+local clientModule = playerDataFolder:FindFirstChild("Client")
+assert(clientModule and clientModule:IsA("ModuleScript"), "PlayerData.Client must be a ModuleScript")
+
+local PlayerDataClient = require(clientModule)
 
 PlayerDataClient.start()
 
