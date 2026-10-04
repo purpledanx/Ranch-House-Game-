@@ -11,8 +11,7 @@ local doorStates = {}
 local function playSound(parent, soundId)
 	local sound = Instance.new("Sound")
 	sound.SoundId = soundId
-	sound.RollOffMinDistance = 5
-	sound.RollOffMaxDistance = 20
+	sound.Volume = 0.5
 	sound.Parent = parent
 	sound:Play()
 	game.Debris:AddItem(sound, 2)

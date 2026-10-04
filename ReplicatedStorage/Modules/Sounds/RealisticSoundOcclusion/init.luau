@@ -2,6 +2,44 @@
 local Paths = require(script.InstancePaths)
 local MAX_RAYS = 24
 local MAX_HITS = 8
+local MAX_DIRECT_RAYS = 6 -- Leave at least 18 rays for routes around obstructions.
+local BLOCKED_DIRECT_MID_LOSS_DB = 8
+local BLOCKED_DIRECT_HIGH_LOSS_DB = 20
+-- Gentle game-scale air absorption relative to bass. Distance loudness rolloff
+-- remains engine-owned; these values only change the frequency balance.
+local DISTANCE_FILTER = {
+	MidLossDbPerStud = 0.008,
+	HighLossDbPerStud = 0.035,
+	MaxMidLossDb = 4,
+	MaxHighLossDb = 12,
+}
+local ROUTE = {
+	SurfaceClearanceStuds = 0.15,
+	EdgeClearanceStuds = 0.35,
+	LocalProbeOffsetStuds = 0.75,
+	LowBaseLossDb = 0.5,
+	MidBaseLossDb = 1,
+	HighBaseLossDb = 2,
+	LowLossPerExtraStud = 0.75,
+	MidLossPerExtraStud = 1.5,
+	HighLossPerExtraStud = 3,
+}
+
+local SEARCH = {
+	MaxNodes = 40,
+	MaxIterations = 24,
+	MaxPortals = 4,
+	MaxCandidates = 64,
+	MaxDetours = 3,
+	MaxOpeningHops = 3,
+	NodeMergeStuds = 0.1,
+	MaxHints = 32,
+	HintLifetimeSeconds = 1,
+	VerifiedSegmentPreference = 0.15,
+	MaxPreferenceStuds = 1,
+	WideProbeStuds = 3,
+}
+local routeHints, routeHintCount = {}, 0
 
 -- Tuned game approximations in dB, not measured laboratory transmission coefficients.
 -- Each band has a surface loss plus an additional loss per stud of wall thickness.
@@ -21,8 +59,12 @@ local MATERIALS = {
 }
 local DEFAULT_MATERIAL = MATERIALS.Concrete
 local TRANSMISSION_SCALE = 0.45
--- Reduce wall transmission's influence when a verified indirect route exists.
-local DIRECT_WEIGHT_WITH_INDIRECT_ROUTE = 0
+-- Keep transmission as a baseline when a diffraction route appears/disappears.
+local DIRECT_WEIGHT_WITH_INDIRECT_ROUTE = 1
+-- Unclassified parts may be furniture panels rather than separate room walls.
+-- Keep the strongest loss plus a small contribution from the rest. Explicit
+-- SoundRoomBoundary geometry remains additive. This is a bounded approximation.
+local SECONDARY_BLOCKER_WEIGHT = 0.15
 
 local function amplitude(db)
 	return 10 ^ (-db / 20)
@@ -122,7 +164,8 @@ local function solve(job)
 	local remaining = MAX_RAYS
 	local blockers, seen = {}, {}
 	local routeLabel = "direct"
-	local function trace(origin, destination, stopAtWall)
+	local function trace(origin, destination, stopAtWall, rayLimit)
+		local remainingFloor = math.max(0, remaining - (rayLimit or MAX_RAYS))
 		local delta = destination - origin
 		local length = delta.Magnitude
 		if length < 0.001 then
@@ -136,23 +179,32 @@ local function solve(job)
 			table.insert(excluded, job.sourceObject)
 		end
 		local low, mid, high, walls = 0, 0, 0, 0
+		local strongest = {0, 0, 0}
+		local totals = {0, 0, 0}
+		local boundaries = {0, 0, 0}
+		local dominant, dominantLoss
 		local first
+		local function cappedResult()
+			-- Exhausting the probe budget is not another physical wall. Retain
+			-- observed transmission; unfinished visibility never proves a route.
+			return {low = stopAtWall and 0 or amplitude(walls > 0 and low or 18),
+				mid = stopAtWall and 0 or amplitude(walls > 0 and mid or 30),
+				high = stopAtWall and 0 or amplitude(walls > 0 and high or 42), walls = walls, first = first, dominant = dominant}
+		end
 		for _ = 1, MAX_HITS do
-			if remaining == 0 then return {low = 0, mid = 0, high = 0, walls = walls, first = first} end
+			if remaining <= remainingFloor then return cappedResult() end
 			remaining = remaining - 1
 			params.FilterDescendantsInstances = excluded
 			local hit = workspace:Raycast(origin, delta, params)
 			if not hit then
 				-- A ray starting inside a wall can miss its containing surface.
 				-- Confirm apparent openings from the other endpoint as well.
-				if remaining == 0 then
-					return {low = 0, mid = 0, high = 0, walls = walls, first = first}
-				end
+				if remaining <= remainingFloor then return cappedResult() end
 				remaining = remaining - 1
 				hit = workspace:Raycast(destination, delta * -1, params)
 			end
 			if not hit then
-				return {low = amplitude(low), mid = amplitude(mid), high = amplitude(high), walls = walls, first = first}
+				return {low = amplitude(low), mid = amplitude(mid), high = amplitude(high), walls = walls, first = first, dominant = dominant}
 			end
 			local part = hit.Instance
 			if not part:IsA("BasePart") then
@@ -172,136 +224,214 @@ local function solve(job)
 				local material = part:GetAttribute("SoundOcclusionMaterial") or part.Material.Name
 				local profile = MATERIALS[material] or DEFAULT_MATERIAL
 				local thickness = wallThickness(part, origin, unit, length)
-				low = math.min(18, low + (profile[1] + profile[2] * thickness) * TRANSMISSION_SCALE)
-				mid = math.min(30, mid + (profile[3] + profile[4] * thickness) * TRANSMISSION_SCALE)
-				high = math.min(42, high + (profile[5] + profile[6] * thickness) * TRANSMISSION_SCALE)
+				local bendable = canBendAround(part)
+				for band = 1, 3 do
+					local loss = (profile[band * 2 - 1] + profile[band * 2] * thickness) * TRANSMISSION_SCALE
+					if bendable then
+						totals[band] = totals[band] + loss
+						strongest[band] = math.max(strongest[band], loss)
+					else
+						boundaries[band] = boundaries[band] + loss
+					end
+					if band == 1 and (not dominantLoss or loss > dominantLoss) then
+						dominant, dominantLoss = hit, loss
+					end
+				end
+				local function bandLoss(band, cap)
+					local primary = math.max(boundaries[band], strongest[band])
+					return math.min(cap, primary + SECONDARY_BLOCKER_WEIGHT * (totals[band] + boundaries[band] - primary))
+				end
+				low, mid, high = bandLoss(1, 18), bandLoss(2, 30), bandLoss(3, 42)
 			end
 			table.insert(excluded, part)
 		end
 		-- An incomplete visibility test cannot establish an opening. Keep a
 		-- quiet transmission path instead of abruptly muting dense geometry.
-		return {low = stopAtWall and 0 or amplitude(18), mid = stopAtWall and 0 or amplitude(30),
-			high = stopAtWall and 0 or amplitude(42), walls = walls, first = first}
+		return cappedResult()
 	end
 
-	local direct = trace(job.listener, job.source, false)
-	local allowEdges, routeReason = false, "clear direct path"
-	if direct.first then allowEdges, routeReason = canBendAround(direct.first.Instance) end
-	if direct.walls > 0 then
-		-- Grazing a thin wall must not restore intelligible high frequencies.
-		-- Keep bass transmission gentle, but reserve clear mids/highs for an
-		-- actual opening. This also separates open- and closed-door timbres.
-		direct.mid = math.min(direct.mid, direct.low * amplitude(12))
-		direct.high = math.min(direct.high, direct.low * amplitude(28))
-	end
+	local direct = trace(job.listener, job.source, false, MAX_DIRECT_RAYS)
 	local bestLow, bestMid, bestHigh = 0, 0, 0
 	local doorwayPosition, pathLength
-	local portalCount = 0
-	if direct.first and remaining >= 6 and job.probes > 0 then
+	local directRays = MAX_RAYS - remaining
+	local directDistance = (job.source - job.listener).Magnitude
+	local bestExcess, routeTests, portalCount = 0, 0, 0
+	local routeReason = "clear direct path"
+	if direct.walls > 0 then
+		direct.mid = math.min(direct.mid, direct.low * amplitude(BLOCKED_DIRECT_MID_LOSS_DB))
+		direct.high = math.min(direct.high, direct.low * amplitude(BLOCKED_DIRECT_HIGH_LOSS_DB))
+		routeReason = "transmission; no verified connected route"
+	end
+	if direct.first and job.probes > 0 and directDistance > 0.001 then
+		local nodes, edges, candidates = {}, {}, {}
+		local function addNode(position)
+			for index, node in ipairs(nodes) do
+				if (node - position).Magnitude < SEARCH.NodeMergeStuds then return index end
+			end
+			if #nodes >= SEARCH.MaxNodes then return nil end
+			table.insert(nodes, position); edges[#nodes] = {}
+			return #nodes
+		end
+		addNode(job.listener); addNode(job.source)
+		local function enqueue(path, depth, priority, bypassed)
+			if #candidates >= SEARCH.MaxCandidates then return end
+			local length = 0
+			for index = 2, #path do length = length + (nodes[path[index]] - nodes[path[index - 1]]).Magnitude end
+			table.insert(candidates, {path = path, depth = depth, length = length, priority = priority or 0,
+				bypassed = bypassed or {}})
+		end
+		local function expandSegment(candidate, index, hit)
+			if not hit or candidate.depth >= SEARCH.MaxDetours or not canBendAround(hit.Instance) then return end
+			local part, path = hit.Instance, candidate.path
+			-- An unsuccessful detour around the same surface is rejected, rather
+			-- than repeatedly inserting tiny steps that consume the search budget.
+			if candidate.bypassed[part] then return end
+			local origin, destination = nodes[path[index - 1]], nodes[path[index]]
+			local cf, half = part.CFrame, part.Size * 0.5
+			local normal = half.X < half.Z and cf.RightVector or cf.LookVector
+			local tangent = half.X < half.Z and cf.LookVector or cf.RightVector
+			local center = cf:PointToWorldSpace(Vector3.new(0, cf:PointToObjectSpace(hit.Position).Y, 0))
+			local originSide = (origin - center):Dot(normal) >= 0 and 1 or -1
+			local destinationSide = (destination - center):Dot(normal) >= 0 and 1 or -1
+			local surfaceNormal = hit.Normal or normal * originSide
+			local lateral = surfaceNormal:Cross(Vector3.yAxis)
+			if lateral.Magnitude < 0.001 then lateral = tangent end
+			local surface = hit.Position + surfaceNormal * ROUTE.SurfaceClearanceStuds
+			local function insertWaypoints(points)
+				local added = {}
+				for _, point in ipairs(points) do
+					local node = addNode(point)
+					if not node then return end
+					for _, existing in ipairs(path) do if existing == node then return end end
+					table.insert(added, node)
+				end
+				local newPath = {}
+				for offset, node in ipairs(path) do
+					if offset == index then for _, extra in ipairs(added) do table.insert(newPath, extra) end end
+					table.insert(newPath, node)
+				end
+				local bypassed = table.clone(candidate.bypassed)
+				bypassed[part] = true
+				enqueue(newPath, candidate.depth + 1, candidate.priority, bypassed)
+			end
+			for _, radius in ipairs({ROUTE.LocalProbeOffsetStuds, SEARCH.WideProbeStuds}) do
+				for _, axis in ipairs({lateral.Unit, Vector3.yAxis}) do
+					insertWaypoints({surface + axis * radius})
+					insertWaypoints({surface - axis * radius})
+				end
+			end
+			local depth = math.min(half.X, half.Z) + ROUTE.SurfaceClearanceStuds
+			local width = math.max(half.X, half.Z) + ROUTE.EdgeClearanceStuds
+			for _, edge in ipairs({center + tangent * width, center - tangent * width,
+				cf:PointToWorldSpace(Vector3.new(0, half.Y + ROUTE.EdgeClearanceStuds, 0)),
+				cf:PointToWorldSpace(Vector3.new(0, -half.Y - ROUTE.EdgeClearanceStuds, 0))}) do
+				insertWaypoints({edge + normal * depth * originSide, edge + normal * depth * destinationSide})
+			end
+		end
+		-- Cache waypoint hints, never stale visibility. Moving doors are tested anew.
+		local cacheKey = job.sourceObject or job.source
+		local hint = routeHints[cacheKey]
+		if hint and os.clock() - hint.time <= SEARCH.HintLifetimeSeconds then
+			local path = {1}
+			for _, point in ipairs(hint.points) do
+				local node = addNode(point)
+				if node then table.insert(path, node) end
+			end
+			table.insert(path, 2); enqueue(path, 0)
+		end
 		local portals = getPortals()
 		portalCount = #portals
-		-- Evaluate only the cheapest candidate routes; the overall ray cap still
-		-- applies. Door leaves and adjacent walls remain in all visibility tests.
-		for _, portal in ipairs(portals) do
-			portal.cost = (portal.center - job.listener).Magnitude + (job.source - portal.center).Magnitude
+		table.sort(portals, function(a, b)
+			return (a.center - job.listener).Magnitude + (a.center - job.source).Magnitude
+				< (b.center - job.listener).Magnitude + (b.center - job.source).Magnitude
+		end)
+		local openings = {}
+		for index = 1, math.min(#portals, SEARCH.MaxPortals) do
+			local portal = portals[index]
+			local a = addNode(portal.center + portal.normal * portal.depth)
+			local b = addNode(portal.center - portal.normal * portal.depth)
+			if a and b then table.insert(openings, {a, b}) end
 		end
-		table.sort(portals, function(a, b) return a.cost < b.cost end)
-		local distance = math.max((job.source - job.listener).Magnitude, 0.1)
-		local tested = 0
-		for _, portal in ipairs(portals) do
-			if remaining < 6 or tested >= math.min(job.probes, 2) then break end
-			local listenerSide = (job.listener - portal.center):Dot(portal.normal)
-			local sourceSide = (job.source - portal.center):Dot(portal.normal)
-			if listenerSide * sourceSide < 0 then
-				tested = tested + 1
-				local side = listenerSide >= 0 and 1 or -1
-				local entry = portal.center + portal.normal * portal.depth * side
-				local exit = portal.center - portal.normal * portal.depth * side
-				routeLabel = "doorway"
-				local a = trace(job.listener, entry, true)
-				local clear = false
-				if a.walls == 0 and a.low > 0 then
-					local b = trace(entry, exit, true)
-					if b.walls == 0 and b.low > 0 then
-						local c = trace(exit, job.source, true)
-						clear = c.walls == 0 and c.low > 0
-					end
-				end
-				if clear then
-					local detour = (entry - job.listener).Magnitude + (exit - entry).Magnitude + (job.source - exit).Magnitude
-					local incoming = (entry - job.listener).Unit
-					local outgoing = (job.source - exit).Unit
-					local through = (exit - entry).Unit
-					local bend = (1 - math.clamp(incoming:Dot(through), -1, 1))
-						+ (1 - math.clamp(through:Dot(outgoing), -1, 1))
-					local spread = math.sqrt(distance / math.max(detour, distance)) * math.exp(-math.max(0, detour - distance) / 60)
-					local candidate = spread * amplitude(3 + 3 * bend)
-					if candidate > bestLow then
-						routeReason = "verified doorway route"
-						doorwayPosition, pathLength = entry, detour
-						bestLow = candidate
-						bestMid = spread * amplitude(6 + 5 * bend)
-						bestHigh = spread * amplitude(11 + 8 * bend)
-					end
+		-- Both directions of each opening are graph edges. Chains can join rooms
+		-- even when listener and source lie on the same side of one door's plane.
+		local function connectOpenings(path, used, count)
+			if count > 0 then
+				local complete = table.clone(path); table.insert(complete, 2); enqueue(complete, 0)
+			end
+			if count >= SEARCH.MaxOpeningHops then return end
+			for index, opening in ipairs(openings) do
+				if not used[index] then
+					used[index] = true
+					local previous = nodes[path[#path]]
+					local a, b = opening[1], opening[2]
+					if (nodes[b] - previous).Magnitude < (nodes[a] - previous).Magnitude then a, b = b, a end
+					local nextPath = table.clone(path)
+					table.insert(nextPath, a); table.insert(nextPath, b)
+					connectOpenings(nextPath, used, count + 1)
+					used[index] = nil
 				end
 			end
 		end
-	end
-	-- Test continuous paths around exposed edges. Room names alone cannot
-	-- reject an open-plan partition; adjoining geometry must block the route.
-	if direct.first and remaining >= 6 and job.probes > 0 and allowEdges then
-		local part = direct.first.Instance
-		local cf, half = part.CFrame, part.Size * 0.5
-		local normal = half.X < half.Z and cf.RightVector or cf.LookVector
-		local tangent = half.X < half.Z and cf.LookVector or cf.RightVector
-		local depth = math.min(half.X, half.Z) + 0.25
-		local width = math.max(half.X, half.Z) + 0.35
-		local hitHeight = cf:PointToObjectSpace(direct.first.Position).Y
-		local center = cf:PointToWorldSpace(Vector3.new(0, hitHeight, 0))
-		local listenerSide = (job.listener - center):Dot(normal)
-		local sourceSide = (job.source - center):Dot(normal)
-		local distance = (job.source - job.listener).Magnitude
-		-- A large open-plan partition can still have a nearby exposed edge.
-		if distance > 0.1 then
-			local side = listenerSide > 0 and 1 or -1
-			local sourceSign = sourceSide > 0 and 1 or -1
-			local candidates = {}
-			local function addCandidate(edge)
-				local entry, exit = edge + normal * depth * side, edge + normal * depth * sourceSign
-				table.insert(candidates, {entry = entry, exit = exit,
-					length = (entry - job.listener).Magnitude + (exit - entry).Magnitude + (job.source - exit).Magnitude})
-			end
-			addCandidate(center + tangent * width)
-			addCandidate(center - tangent * width)
-			addCandidate(cf:PointToWorldSpace(Vector3.new(0, half.Y + 0.35, 0)))
-			table.sort(candidates, function(a, b) return a.length < b.length end)
-			for probe = 1, math.min(job.probes + 1, #candidates) do
-				if remaining < 6 then break end
-				local entry, exit = candidates[probe].entry, candidates[probe].exit
-				routeLabel = "obstacle bypass"
-				local a = trace(job.listener, entry, true)
-				if a.walls == 0 and a.low > 0 then
-					local b = trace(entry, exit, true)
-					if b.walls == 0 and b.low > 0 then
-						local c = trace(exit, job.source, true)
-						if c.walls == 0 and c.low > 0 then
-							local detour = (entry - job.listener).Magnitude + (exit - entry).Magnitude + (job.source - exit).Magnitude
-							local excess = math.max(0, detour - distance)
-							-- Excess path length, not the mere presence of a center-ray hit,
-							-- controls this approximation. Higher frequencies lose more energy.
-							local spread = distance / math.max(detour, distance)
-							local candidate = spread * amplitude(1.5 + 1.5 * excess)
-							if candidate > bestLow then
-								routeReason = "verified obstacle diffraction"
-								doorwayPosition, pathLength = entry, detour
-								bestLow = candidate
-								bestMid = spread * amplitude(2 + 3 * excess)
-								bestHigh = spread * amplitude(3 + 6 * excess)
-							end
-						end
-					end
+		connectOpenings({1}, {}, 0)
+		edges[1][2], edges[2][1] = {clear = false, hit = direct.first}, {clear = false, hit = direct.first}
+		enqueue({1, 2}, 0, 1)
+		-- Bounded best-first refinement of complete paths. Only a failed segment
+		-- branches; verified segments are reused across candidates within this job.
+		local function candidateScore(candidate)
+			local verified = 0
+			for index = 2, #candidate.path do
+				local a, b = candidate.path[index - 1], candidate.path[index]
+				if edges[a][b] and edges[a][b].clear then
+					verified = verified + (nodes[a] - nodes[b]).Magnitude
 				end
 			end
+			-- Finish promising routes before exploring equivalent alternatives;
+			-- cap the preference so a much longer cached route cannot dominate.
+			return candidate.length - math.min(verified * SEARCH.VerifiedSegmentPreference, SEARCH.MaxPreferenceStuds)
+		end
+		for _ = 1, SEARCH.MaxIterations do
+			if #candidates == 0 then break end
+			local best = 1
+			for index = 2, #candidates do
+				local a, b = candidates[index], candidates[best]
+				if a.priority < b.priority or (a.priority == b.priority and candidateScore(a) < candidateScore(b)) then best = index end
+			end
+			local candidate = table.remove(candidates, best)
+			local path, clear = candidate.path, true
+			routeTests = routeTests + 1
+			for index = 2, #path do
+				local a, b = path[index - 1], path[index]
+				local edge = edges[a][b]
+				if not edge then
+					if remaining < 2 then clear = false; break end
+					routeLabel = "connected route"
+					local leg = trace(nodes[a], nodes[b], true)
+					edge = {clear = leg.walls == 0 and leg.low > 0, hit = leg.first}
+					edges[a][b] = edge
+					-- Only clear checks are symmetric; a blocker hit is direction-specific.
+					if edge.clear then edges[b][a] = edge end
+				end
+				if not edge.clear then expandSegment(candidate, index, edge.hit); clear = false; break end
+			end
+			if clear then
+				local length = candidate.length
+				local excess = math.max(0, length - directDistance)
+				local spread = directDistance / math.max(length, directDistance)
+				bestLow = spread * amplitude(ROUTE.LowBaseLossDb + ROUTE.LowLossPerExtraStud * excess)
+				bestMid = spread * amplitude(ROUTE.MidBaseLossDb + ROUTE.MidLossPerExtraStud * excess)
+				bestHigh = spread * amplitude(ROUTE.HighBaseLossDb + ROUTE.HighLossPerExtraStud * excess)
+				doorwayPosition, pathLength, bestExcess = nodes[path[2]], length, excess
+				routeReason = "verified connected route"
+				local points = {}
+				for index = 2, #path - 1 do table.insert(points, nodes[path[index]]) end
+				if not routeHints[cacheKey] and routeHintCount >= SEARCH.MaxHints then
+					table.clear(routeHints); routeHintCount = 0
+				end
+				if not routeHints[cacheKey] then routeHintCount = routeHintCount + 1 end
+				routeHints[cacheKey] = {time = os.clock(), points = points}
+				break
+			end
+			if remaining < 2 then break end
 		end
 	end
 	-- One bounded serial query phase per job; avoid yielding between route legs.
@@ -310,14 +440,22 @@ local function solve(job)
 	-- blocked source as loud as an unobstructed one. Use the strongest route.
 	local directWeight = direct.walls > 0 and bestLow > 0 and DIRECT_WEIGHT_WITH_INDIRECT_ROUTE or 1
 	local weightedDirectLow = direct.low * directWeight
+	local function distanceBands(mid, high, distance)
+		return mid * amplitude(math.min(distance * DISTANCE_FILTER.MidLossDbPerStud, DISTANCE_FILTER.MaxMidLossDb)),
+			high * amplitude(math.min(distance * DISTANCE_FILTER.HighLossDbPerStud, DISTANCE_FILTER.MaxHighLossDb))
+	end
+	-- Filter each path over its own travel distance before choosing band energy.
+	local directMid, directHigh = distanceBands(direct.mid, direct.high, directDistance)
+	bestMid, bestHigh = distanceBands(bestMid, bestHigh, pathLength or directDistance)
 	local low = math.clamp(math.max(weightedDirectLow, bestLow), 0.001, 1)
-	local mid = math.clamp(math.max(direct.mid * directWeight, bestMid), 0.001, low)
-	local high = math.clamp(math.max(direct.high * directWeight, bestHigh), 0.001, mid)
+	local mid = math.clamp(math.max(directMid * directWeight, bestMid), 0.001, low)
+	local high = math.clamp(math.max(directHigh * directWeight, bestHigh), 0.001, mid)
 	return {gain = low, mid = math.clamp(20 * math.log10(mid / low), -60, 0),
 		high = math.clamp(20 * math.log10(high / low), -60, 0), walls = direct.walls,
 		diffracted = bestLow > 0,
 		doorwayPosition = bestLow > weightedDirectLow and doorwayPosition or nil,
 		pathLength = pathLength, portalCount = portalCount, routeReason = routeReason,
+		directRays = directRays, routeTests = routeTests, pathExcess = bestExcess,
 		rays = MAX_RAYS - remaining, blockers = blockers}
 end
 

@@ -95,21 +95,37 @@ local function RoomTouched(roomName)
 	end
 end
 
+local function findFirstAncestorWithToolAttribute(instance: Instance): Instance?
+	if not instance then return nil end
+
+	local current: Instance? = instance
+	while current do
+		if current:GetAttribute("tool") ~= nil then
+			return current
+		end
+		current = current.Parent
+	end
+
+	return nil
+end
+
 local function InputChanged()
 	if mouse.Target then
-		if mouse.Target.Parent:GetAttribute("tool") then
-			if mouse.Target.Parent.Name == "EMF" then
+		local tool = findFirstAncestorWithToolAttribute(mouse.Target)
+		if tool then
+			if tool.Name == "EMF" then
 				ToolPickupGUI.Enabled = true
-				ToolPickupGUI.Adornee = mouse.Target.Parent.Hover
-			elseif mouse.Target.Parent.Name == "Spirit Box" then
+				ToolPickupGUI.Adornee = tool.Hover
+			elseif tool.Name == "Spirit Box" then
 				ToolPickupGUI.Enabled = true
-				ToolPickupGUI.Adornee = mouse.Target.Parent.Hover
-			elseif mouse.Target.Parent.Name == "Thermometer" then
+				ToolPickupGUI.Adornee = tool.Hover
+			elseif tool.Name == "Thermometer" then
 				ToolPickupGUI.Enabled = true
-				ToolPickupGUI.Adornee = mouse.Target.Parent.Hover
+				ToolPickupGUI.Adornee = tool.Hover
+			else
+				ToolPickupGUI.Enabled = true
+				ToolPickupGUI.Adornee = tool
 			end
-			ToolPickupGUI.Enabled = true
-			ToolPickupGUI.Adornee = mouse.Target
 		else
 			ToolPickupGUI.Enabled = false
 			ToolPickupGUI.Adornee = nil

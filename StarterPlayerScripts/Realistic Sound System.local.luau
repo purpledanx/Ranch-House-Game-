@@ -16,8 +16,8 @@ Realistic Sound System — quick setup
 -- Configuration: time values are seconds, distances are studs, and EQ values are dB.
 local SETTINGS = {
 	Response = {
-		VolumeSeconds = 0.025,
-		MuffleSeconds = 0.012,
+		VolumeSeconds = 0.04,
+		MuffleSeconds = 0.04, -- Short crossfade for route changes; no delayed hold.
 		GainSnapTolerance = 0.0001,
 		EqualizerSnapToleranceDb = 0.001,
 		MinimumDirectionStuds = 0.1,
@@ -137,7 +137,30 @@ local function debugSound(object, record, result)
 		table.insert(blockerLines, line)
 	end
 
+	if #blockerLines == 0 then
+		table.insert(blockerLines, "  No blocking parts detected.")
+	end
 	local route = result.routeReason or (result.diffracted and "indirect" or "direct")
+	local searchSummary = string.format(
+		"  Search: direct rays=%d, routes tested=%d, extra path=%.2f studs",
+		result.directRays or 0, result.routeTests or 0, result.pathExcess or 0
+	)
+	table.insert(blockerLines, searchSummary)
+	-- A clear result here cannot undo EQ owned by another system. Include those
+	-- effects in diagnostics so an audible mismatch can be traced to its owner.
+	if record.isSound then
+		local function describeEqualizers(container)
+			if not container then return end
+			for _, effect in ipairs(container:GetChildren()) do
+				if effect:IsA("EqualizerSoundEffect") and effect ~= record.equalizer then
+					table.insert(blockerLines, string.format("  Other EQ: %s | enabled=%s mid=%.1f high=%.1f",
+						effect:GetFullName(), tostring(effect.Enabled), effect.MidGain, effect.HighGain))
+				end
+			end
+		end
+		describeEqualizers(object)
+		describeEqualizers(object.SoundGroup)
+	end
 	local blockerSummary = #blockerLines > 0 and table.concat(blockerLines, "\n")
 		or "  No blocking parts detected."
 	local message = string.format(
@@ -308,36 +331,45 @@ local function releasePosition(object, record)
 	record.relocating = nil
 end
 
-local function updatePosition(object, record, listener, source, result)
-	if not record.isSound then
+local function updatePosition(object, record, listener, source, result, alpha)
+	if not record.isSound or record.excluded or not source then
 		return
 	end
 	local doorway = result and result.doorwayPosition
-	if not doorway or not listener or not source then
-		releasePosition(object, record)
-		return
-	end
-	local direction = doorway - listener
-	if direction.Magnitude < SETTINGS.Response.MinimumDirectionStuds then
-		releasePosition(object, record)
-		return
-	end
 	if not record.anchor then
 		record.spatialParent = object.Parent
 		local anchor = Instance.new("Attachment")
 		anchor.Name = "RealisticSoundDirection"
 		anchor.Parent = object.Parent
+		anchor.WorldPosition = source
 		record.anchor = anchor
+		record.relocating = true
+		object.Parent = anchor
+		record.relocating = nil
 	end
-	-- Preserve distance rolloff while steering the apparent direction through
-	-- the opening. One reusable attachment per routed source, no helper Parts.
-	local distance = math.max((source - listener).Magnitude, result.pathLength or 0)
-	record.anchor.WorldPosition = listener + direction.Unit * distance
-	record.relocating = true
-	if record.isSound then
-		object.Parent = record.anchor
+	-- Keep the same emitter parent across clear/blocked/idle transitions. Changing
+	-- ancestry on a playing Sound can rebuild its spatial voice and cause a gap.
+	local target = source
+	if doorway and listener then
+		local direction = doorway - listener
+		if direction.Magnitude >= SETTINGS.Response.MinimumDirectionStuds then
+			local distance = math.max((source - listener).Magnitude, result.pathLength or 0)
+			target = listener + direction.Unit * distance
+		end
 	end
-	record.relocating = nil
+	local current = record.anchor.WorldPosition
+	local blended = current + (target - current) * (alpha or 1)
+	if listener then
+		-- Interpolate radius separately so turning around the listener cannot
+		-- sweep the emitter through their head and briefly change distance rolloff.
+		local direction = blended - listener
+		local radius = (current - listener).Magnitude
+		local distance = radius + ((target - listener).Magnitude - radius) * (alpha or 1)
+		if direction.Magnitude >= SETTINGS.Response.MinimumDirectionStuds then
+			blended = listener + direction.Unit * distance
+		end
+	end
+	record.anchor.WorldPosition = blended
 end
 
 -- Sound registration and cleanup.
@@ -358,6 +390,12 @@ local function register(object)
 		record.baseVolume, record.lastVolume = object.Volume, object.Volume
 	end
 	records[object] = record
+	-- Prepare stopped sounds before playback when possible; already-playing
+	-- sources need only this one initial handoff, never one per diffraction change.
+	if record.isSound and object:GetAttribute("RealisticSoundEnabled") ~= false then
+		local position = getSource(object, record)
+		updatePosition(object, record, nil, position, nil, 1)
+	end
 end
 
 -- Restore only effects and positioning owned by this system.
@@ -589,12 +627,14 @@ local function scan(listener)
 			end
 
 			local position, sourceObject, key = getSource(object, record)
+			record.position = position
 			local playing = record.isSound and object.IsPlaying or (not record.isSound and walkInputs(object))
 			local active = listener and position and playing
 
 			-- Native positional Sounds outside their rolloff are already inaudible.
-			if active and record.isSound and object.Parent and not object.Parent:IsA("Model") then
-				local hasSpatialParent = object.Parent:IsA("BasePart") or object.Parent:IsA("Attachment")
+			local physicalParent = record.spatialParent or object.Parent
+			if active and record.isSound and physicalParent and not physicalParent:IsA("Model") then
+				local hasSpatialParent = physicalParent:IsA("BasePart") or physicalParent:IsA("Attachment")
 				local outsideRolloff = (position - listener).Magnitude > object.RollOffMaxDistance
 				if hasSpatialParent and outsideRolloff then
 					active = false
@@ -636,7 +676,6 @@ local function scan(listener)
 				end
 			else
 				record.entry = nil
-				releasePosition(object, record)
 				record.target = 1
 				record.targetMid = 0
 				record.targetHigh = 0
@@ -734,7 +773,7 @@ local function updateRecord(object, record, listener, volumeAlpha, muffleAlpha)
 		debugSound(object, record, result)
 	end
 
-	updatePosition(object, record, listener, record.position, result)
+	updatePosition(object, record, listener, record.position, result, volumeAlpha)
 	if not recordNeedsUpdate(record) then
 		return
 	end
